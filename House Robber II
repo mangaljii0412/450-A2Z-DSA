@@ -1,0 +1,40 @@
+class Solution {
+public:
+int solve(vector<int> nums , int index , vector<int> dp){
+        if(index == 0) return nums[index];
+        if(index < 0) return 0;
+        if(dp[index] != -1) return dp[index];
+
+        int pick = nums[index] + solve(nums,index-2,dp);
+        int notpick = 0 + solve(nums,index-1,dp);
+        return dp[index] =  max(pick,notpick);
+}
+
+    int solve(vector<int> &nums){
+        int n = nums.size();
+        vector<int> dp(n,0);
+        int prev = nums[0];
+        int prev2 = 0;
+        for(int i = 1 ; i < n ; i++){
+            int pick = nums[i];
+            if(i>1) pick += prev2;
+            int  notpick = 0 + prev;
+            int curi = max(pick,notpick);
+            prev2 = prev;
+            prev = curi;
+        }
+    return prev;
+}
+
+
+    int rob(vector<int>& nums) {
+        int n = nums.size();
+        if(n==1) return nums[0];
+        vector<int> temp1(nums.begin(), nums.end()-1);
+        vector<int> temp2(nums.begin()+1, nums.end());
+
+        // vector<int> dp1(n+1,-1);
+        // vector<int> dp(n+1,-1);
+        return max(solve(temp1),solve(temp2));
+    }
+};
