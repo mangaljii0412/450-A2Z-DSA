@@ -1,0 +1,37 @@
+class Solution {
+public:
+
+    int FindBukkey(vector<int> &bloomDay , int mid , int k){
+        int n = bloomDay.size();
+        int count = 0;
+        int bukkey = 0;
+        for(long long  i = 0 ; i < n ; i++){
+            if(bloomDay[i] <= mid) count++;
+            else{
+                bukkey += count / k;
+                count = 0;
+            }
+        }
+        bukkey += count / k;
+        return bukkey;
+    }
+    int minDays(vector<int>& bloomDay, int m, int k) {
+        int start = *min_element(bloomDay.begin(),bloomDay.end());
+        int end = *max_element(bloomDay.begin(),bloomDay.end());
+        long long ans;
+        long long int temp = (long long)m * (long long)k;
+        if(bloomDay.size() < temp) return -1;
+        while(start <= end){
+            long long mid = start + (end-start)/2;
+            long long  Bukkey = FindBukkey(bloomDay , mid , k);
+            if(Bukkey >= m){
+                ans = mid;
+                end = mid - 1;
+            }
+            else {
+                start = mid + 1;
+            }
+        }
+        return ans;
+    }
+};
